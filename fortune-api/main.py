@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Dict
+from pydantic import BaseModel
 from typing import Optional
 
 from .log import setup_logging
@@ -7,8 +7,8 @@ from .storage import get_random_fortune
 
 setup_logging()
 app = FastAPI(
-    openapi_url=f"/api/openapi.json",
-    docs_url=f"/api/docs"
+    openapi_url="/api/openapi.json",
+    docs_url="/api/docs"
 )
 
 

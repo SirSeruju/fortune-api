@@ -6,6 +6,7 @@ from datetime import datetime
 class JSONFormatter(logging.Formatter):
     def __init__(self):
         super().__init__()
+
     def format(self, record):
         return json.dumps({
             "level": record.levelname,
