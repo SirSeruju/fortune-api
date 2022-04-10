@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import Optional, Dict
 
 from .log import setup_logging
+from .storage import get_random_fortune
 
 setup_logging()
 app = FastAPI(
@@ -20,10 +21,11 @@ class FortuneResponseParams(BaseModel):
 
 
 class FortuneResponse(BaseModel):
+    id: str
     text: str
     params: Optional[FortuneResponseParams]
 
 
 @app.post('/apiv1/fortune', response_model=FortuneResponse)
-async def fortune(fortune_request:FortuneRequest):
-    return FortuneResponse(text="Some fortune text")
+async def fortune(fortune_request: FortuneRequest):
+    return FortuneResponse(**get_random_fortune())
