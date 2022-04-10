@@ -1,6 +1,6 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Optional, Dict
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Dict
+from typing import Optional
 
 from .log import setup_logging
 from .storage import get_random_fortune
@@ -28,4 +28,8 @@ class FortuneResponse(BaseModel):
 
 @app.post('/apiv1/fortune', response_model=FortuneResponse)
 async def fortune(fortune_request: FortuneRequest):
-    return FortuneResponse(**get_random_fortune())
+    fortune = get_random_fortune()
+    if fortune:
+        return FortuneResponse(**fortune)
+    else:
+        raise HTTPException(status_code=404, detail="Item not found")
